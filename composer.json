@@ -1,0 +1,29 @@
+{
+    "name": "charliewilson/folder",
+    "description": "Self-hosted photo sharing platform",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Charlie Wilson",
+            "email": "me@charliewilson.co.uk",
+            "homepage": "https://charlie.town",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "delight-im/auth": "^8.1",
+        "altorouter/altorouter": "^2.0",
+        "vlucas/phpdotenv": "^4.1",
+        "ext-pdo": "*",
+        "twig/twig": "^3.3",
+        "twig/intl-extra": "^3.3",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "intervention/image": "^2.7",
+        "ext-exif": "*",
+        "erusev/parsedown": "^1.7"
+    },
+    "scripts": {
+        "post-install-cmd": "php -r \"if (!file_exists('app/folder.db')) { copy('app/folder_init.db', 'app/folder.db'); } else { echo 'folder: db already exists.'; }\""
+    }
+}

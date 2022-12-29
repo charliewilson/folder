@@ -1,0 +1,33 @@
+{% extends '_base.twig' %}
+{% if type == "tag" %}
+{% set tagTitle = '#'~tag %}
+{% else %}
+{% set tagTitle = tag %}
+{% endif %}
+
+{% block headerLinks %}
+<a href="/" class="homepage-link">← back to all photos</a>
+{% endblock %}
+
+{% block posts %}
+<h3>{% if type == "tag" %}#{% endif %}{{ tag }}</h3>
+<h4>{{ total }} photo{% if total != 1 %}s{% endif %}</h4>
+{% if photos|length == 0 %}
+  <p>No photos found...</p>
+{% else %}
+  <div class="photo-grid">
+    {% for photo in photos %}
+      <div class="image">
+        <div class="thumb" style="background-image:url('{{ photo.image.thumb }}')">
+          <a href="/photo/{{ photo.id }}">
+            <div>
+              <span>{{ photo.title }}</span>
+              <span>{{ photo.timestamp.short }}</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,362 @@
+@font-face {
+    font-family: 'Lato';
+    src: url('fonts/Lato-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    --grid-padding:15px;
+    --background-colour: #fff;
+    --text-colour: #000;
+    --primary-colour: #0167a4;
+    --primary-colour-light: #0191de;
+    --tags-colour: #0167a4;
+    --people-colour: #661f1f;
+    --location-colour: #1f6632;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-colour: #111;
+        --text-colour: #fff;
+    }
+}
+
+html {
+    font-family: "Lato", Helvetica, Arial, sans-serif;
+}
+
+body {
+    margin:0;
+    padding:0;
+    touch-action: pan-y;
+    background-color:var(--background-colour);
+    color: var(--text-colour);
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+i.emoji {
+    display:inline-block;
+    font-size:24px;
+    margin-right:12px;
+    vertical-align:middle;
+    font-style: normal;
+    margin-top:-5px;
+    min-width:33px;
+    text-align:center;
+}
+
+div.container {
+    box-sizing: border-box;
+    width:100%;
+    max-width:800px;
+    margin:auto;
+    padding:0 15px;
+}
+
+header {
+    border-bottom:1px solid grey;
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    align-items:center;
+    padding:25px 0;
+}
+
+header h1 {
+    margin:0;
+    font-size:20px;
+}
+
+header h1 span {
+    color: #999;
+}
+
+header a {
+    color: var(--text-colour);
+}
+
+header a:hover {
+    color: var(--primary-colour-light);
+}
+
+header a.homepage-link {
+    color:#777;
+}
+header a.homepage-link:hover {
+    color: #ababab;
+}
+
+section a {
+    color: var(--primary-colour);
+}
+
+section a:hover,
+header a:hover{
+    color: var(--primary-colour-light);
+}
+
+section.posts div.post {
+    border-bottom:1px solid grey;
+    line-height:1.6;
+    font-size:16px;
+}
+
+section.posts div.post:last-of-type {
+    border-bottom:none;
+}
+
+section.posts div.post p.title {
+    font-weight:bold;
+    font-size: 20px;
+    margin:8px 0 0 0;
+}
+
+section.posts div.post p.date {
+    font-style:italic;
+    font-size:12px;
+    color: #757575;
+    margin:0;
+}
+
+section.posts div.post blockquote {
+    padding: 0 0 0 1.5rem;
+    margin: 0 2rem 1rem 0;
+    color: #757575;
+    border-left: .5rem solid #e5e5e5;
+}
+
+section.posts div.post img {
+    max-width:100%;
+}
+
+section.posts .tags,
+section.posts .people,
+section.posts .places {
+    display:block;
+    font-size:13px;
+    /*margin-bottom:-10px;*/
+}
+
+section.posts .tags a,
+section.posts .people a,
+section.posts .places a {
+    padding:5px 10px;
+    margin-right:10px;
+    margin-bottom:10px;
+    border-radius: 999px;
+    display:inline-block;
+}
+
+section.posts .tags a {
+    background: var(--tags-colour);
+    color:#fff;
+}
+
+section.posts .people a {
+    background: var(--people-colour);
+    color:#fff;
+}
+
+section.posts .places a {
+    background: var(--location-colour);
+    color:#fff;
+}
+
+section.posts h3 {
+    margin:20px 0 0 0;
+}
+
+section.posts h3.taglist {
+    margin:20px 0;
+    display:block;
+}
+
+section.posts h4 {
+    font-weight:normal;
+    /*color:#757575;*/
+    font-size:12px;
+    margin:2px 0 5px 0;
+}
+
+section.tag-container {
+    display:flex;
+}
+
+.post-image-flex {
+    display:flex;
+    flex-direction:row;
+    align-items:flex-start;
+    margin-top:var(--grid-padding);
+}
+
+.post-image-flex div {
+    flex:1;
+}
+@media screen and (min-width: 601px) {
+    .post-image-flex div:first-of-type {
+        width: 50%;
+    }
+}
+.post-image-flex div:last-of-type {
+    margin-left: var(--grid-padding);
+}
+
+@media screen and (max-width: 600px) {
+    .post-image-flex {
+        display:block;
+    }
+    .post-image-flex div:last-of-type {
+        margin-left: 0;
+    }
+}
+
+.post-image-flex .gallery {
+    transition:transform .2s, box-shadow .2s;
+}
+
+@media (hover: hover) {
+    .post-image-flex .gallery:hover {
+        transform: scale(1.02);
+        box-shadow: 0 0 30px rgba(0,0,0,0.3);
+    }
+}
+
+.post-image-flex .gallery a {
+    cursor:zoom-in;
+    display:block;
+}
+
+.post-image-flex .gallery a img {
+    display:block;
+}
+
+section.posts .taglist {
+    display:inline-block;
+    margin-top:var(--grid-padding);
+}
+
+section.posts .taglist .tags {
+    margin-bottom:var(--grid-padding);
+}
+
+section.posts .taglist .tags a {
+    margin-bottom:0;
+    margin-right:0;
+    display:inline-block;
+}
+section.posts .taglist .tags span {
+    margin-left:var(--grid-padding);
+    display:inline-block;
+}
+
+section.pagination {
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:0 0 var(--grid-padding) 0;
+}
+
+section.pagination.top {
+    padding:var(--grid-padding) 0 0 0;
+}
+
+.photo-grid {
+    width:100%;
+    display:grid;
+    column-gap:var(--grid-padding);
+    row-gap:var(--grid-padding);
+    grid-template-columns:
+	  minmax(0, 1fr)
+	  minmax(0, 1fr)
+	  minmax(0, 1fr);
+    padding: var(--grid-padding) 0;
+}
+
+
+.photo-grid .image .thumb {
+    aspect-ratio:1/1;
+    background-size:cover;
+    background-position:center;
+    padding:0;
+    position:relative;
+    overflow:hidden;
+}
+
+.photo-grid .image .thumb a {
+    display:block;
+    width:100%;
+    height:100%;
+
+    background: rgb(0,0,0);
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 65%, rgba(0,0,0,0.6) 85%);
+    opacity:0;
+
+    transition: opacity .5s, transform .5s;
+    transition-timing-function: cubic-bezier(0.25, 0.75, 0.25, 1);
+}
+
+section.footer {
+    font-size:12px;
+    text-align:center;
+    padding-bottom: var(--grid-padding);
+}
+
+@media (hover: hover) {
+    .photo-grid .image .thumb a {
+        transform: translateY(20%);
+    }
+
+    .photo-grid .image .thumb a:hover {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@media (hover: none) {
+    .photo-grid .image .thumb a {
+        opacity:1;
+    }
+}
+
+.photo-grid .image .thumb a div {
+    position:absolute;
+    bottom:15px;
+    left:15px;
+    font-size: 16px;
+    color:#FFF;
+    margin-top:10px;
+}
+
+.photo-grid .image .thumb a div span {
+    display:block;
+}
+
+.photo-grid .image .thumb a div span:last-child {
+    font-size:11px;
+    margin-top:2px;
+}
+
+@media screen and (max-width: 600px) {
+    .photo-grid {
+        grid-template-columns:
+		  minmax(0, 1fr)
+		  minmax(0, 1fr);
+    }
+}
+
+@media screen and (max-width: 430px) {
+    .photo-grid {
+        grid-template-columns:minmax(0, 1fr);
+    }
+}

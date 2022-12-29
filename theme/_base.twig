@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>{% if tagTitle %}{{ tagTitle }} | {% endif %}photos</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="photos by charlie wilson" />
+  <link rel="alternate" type="application/rss+xml" title="photos.charlie.town" href="/rss">
+  {% block head %}{% endblock %}
+  <link rel="stylesheet" href="/theme/css/style.css?{{ random(9999) }}">
+  {% block css %}{% endblock %}
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1><a href="/">photos</a><span>.charlie.town</span></h1>
+    <div>
+      {% block headerLinks %}{% endblock %}
+    </div>
+  </header>
+  {% block paginationTop %}{% endblock %}
+  <section class="posts">
+    {% block posts %}{% endblock %}
+  </section>
+  {% if ((currentPage > 1) or (currentPage < lastPage)) %}
+
+    {% if type %}
+      {% set prefix = '/'~type~'/'~tag_slug~'/' %}
+    {% else %}
+      {% set prefix = '/page/' %}
+    {% endif %}
+
+    <section class="pagination">
+      <div class="newer">
+        {% if (currentPage > 1) %}
+          <a href="{{ prefix~(currentPage - 1) }}">&larr;&nbsp;Newer Photos</a>
+        {% endif %}
+      </div>
+      <div class="older">
+        {% if (currentPage < lastPage) %}
+          <a href="{{ prefix~(currentPage + 1) }}">Older Photos&nbsp;&rarr;</a>
+        {% endif %}
+      </div>
+    </section>
+  {% endif %}
+</div>
+<!-- mastodon profile verification -->
+<a rel="me" style="display:none;" href="https://mastodon.social/@chwilson">Mastodon</a>
+{% block js %}{% endblock %}
+</body>
+</html>

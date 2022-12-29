@@ -1,0 +1,24 @@
+{% extends '_base.twig' %}
+{% block headerLinks %}
+<a href="/tags" class="homepage-link">tags</a>&nbsp;/&nbsp;<a href="/people" class="homepage-link">people</a>&nbsp;/&nbsp;<a href="/places" class="homepage-link">places</a>{#&nbsp;/&nbsp;<a target="_blank" href="/rss" class="homepage-link">rss</a>#}
+{% endblock %}
+{% block posts %}
+    {% if photos|length == 0 %}
+      <p>No photos yet...</p>
+    {% else %}
+      <div class="photo-grid">
+        {% for photo in photos %}
+          <div class="image">
+            <div class="thumb" style="background-image:url('{{ photo.image.thumb }}')">
+              <a href="/photo/{{ photo.id }}">
+                <div>
+                  <span>{{ photo.title }}</span>
+                  <span>{{ photo.timestamp.short }}</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+{% endblock %}

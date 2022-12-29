@@ -1,0 +1,153 @@
+{% extends 'base.twig' %}
+{% set title = photo.title %}
+
+{% block main %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-11 col-xl-10">
+        <div class="page-header d-flex justify-content-between align-items-center">
+          <h1><a href="/folder">folder &#x1F4F7;</a></h1>
+          <div>
+            <a class="btn btn-light" href="/">View Site</a>
+            <a class="btn btn-dark" href="/logout">Logout</a>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-12">
+            <h3>Edit Photo</h3>
+          </div>
+        </div>
+        <div class="row">
+        <div class="col-md-6">
+
+          <img class="edit-image" style="width:100%" src="{{ photo.image.thumb }}">
+        </div>
+        <div class="col-md-6">
+
+        <div class="card">
+          <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+              <div class="form-group">
+                <div class="input-group">
+                  <input type="text" name="timestamp" value="{{ photo.timestamp.raw }}" class="form-control" aria-label="Post Title" data-flatpickr data-enable-time="true" data-date-format="Y-m-d H:i">
+                  <div class="input-group-append">
+                    <button class="btn btn-secondary" type="button" onclick="setDateFromEXIF()">set from EXIF</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <input type="text" class="form-control" value="{{ photo.title }}" name="title" placeholder="Title">
+              </div>
+
+              <div class="form-group">
+                <textarea class="form-control autoresize" name="description" placeholder="Description">{{ photo.description.markdown }}</textarea>
+              </div>
+
+              <div class="form-group">
+                <input style="display:none;" id="tagsField" type="text" value="{{ photo.tags|join(',') }}" name="tags" placeholder="Tags">
+              </div>
+
+              <div class="form-group">
+                <input style="display:none;" id="peopleField" type="text" value="{{ photo.people|join(',') }}" name="people" placeholder="People">
+              </div>
+
+              <div class="form-group">
+                <input style="display:none;" id="locationField" type="text" value="{{ photo.location }}" name="location" placeholder="Location">
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="form-group mb-0">
+                  <div class="custom-control custom-checkbox custom-checkbox-switch">
+                    <input type="checkbox" name="published" class="custom-control-input" id="is-published" {% if photo.published %}checked{% endif %}>
+                    <label class="custom-control-label" for="is-published">Published</label>
+                  </div>
+                </div>
+              </div>
+
+
+                
+              <div class="mt-2 text-right">
+                <div>
+                  <a href="/folder" class="btn btn-secondary">Cancel</a>
+                  <a href="/folder/photo/{{ photo.id }}/delete" onclick="return confirm('Are you sure you want to delete this photo?');" class="btn btn-danger">Delete</a>
+                  <input type="submit" class="btn btn-primary" value="Save">
+                </div>
+              </div>
+              <input type="hidden" value="{% if inline %}1{% else %}0{% endif %}" name="inline">
+            </form>
+
+          </div>
+        </div>
+
+          <details>
+            <summary style="margin-bottom:10px;">View EXIF Data</summary>
+            <div class="card">
+              <div class="card-body">
+                <pre style="margin-bottom:0; height:500px; font-size:10px; overflow:scroll;">{{ photo.exif|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+              </div>
+            </div>
+          </details>
+
+        </div>
+        </div>
+
+
+          <!--end of content list-->
+        <!--end of tab-->
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block js %}
+  <script type="text/javascript">
+    new TomSelect("#tagsField",{
+      plugins: ['caret_position'],
+      persist: false,
+      createOnBlur: true,
+      create: true,
+      options: [{{ tags|raw }}],
+      labelField: 'value',
+      searchField: ['value'],
+      onItemAdd:function(){
+        this.setTextboxValue('');
+        this.refreshOptions();
+      }
+    });
+
+    new TomSelect("#peopleField",{
+        plugins: ['caret_position'],
+        persist: false,
+        createOnBlur: true,
+        create: true,
+        options: [{{ people|raw }}],
+        labelField: 'value',
+        searchField: ['value'],
+        onItemAdd:function(){
+            this.setTextboxValue('');
+            this.refreshOptions();
+        }
+    });
+
+    new TomSelect("#locationField",{
+        plugins: ['caret_position'],
+        persist: false,
+        createOnBlur: true,
+        create: true,
+        options: [{{ locations|raw }}],
+        maxItems: 1,
+        labelField: 'value',
+        searchField: ['value'],
+        onItemAdd:function(){
+            this.setTextboxValue('');
+            this.refreshOptions();
+        }
+    });
+
+    function setDateFromEXIF() {
+      let exifDate = "{{ photo.exif.EXIF.DateTimeOriginal }}".replace(':','-').replace(':','-');
+      document.querySelector("[data-flatpickr]")._flatpickr.setDate(exifDate.slice(0, -3), true);
+    }
+  </script>
+{% endblock %}

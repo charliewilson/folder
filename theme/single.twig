@@ -1,0 +1,105 @@
+{% extends '_base.twig' %}
+{% set tagTitle = photo.title %}
+
+{% block head %}
+<meta property="og:title" content="{{ photo.title }}">
+<meta property="og:description" content="{{ photo.description.html|striptags }}">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://photos.charlie.town/photo/{{ photo.id }}">
+<meta property="og:image" content="https://photos.charlie.town{{ photo.image.thumb }}">
+<meta property="og:image:type" content="image/jpeg">
+<meta name="twitter:site" content="photos.charlie.town">
+<meta name="twitter:title" content="{{ photo.title }}">
+<meta name="twitter:description" content="{{ photo.description.html|striptags }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://photos.charlie.town{{ photo.image.thumb }}">
+<meta name="theme-color" content="#0167a4">
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/theme/css/photoswipe.css">
+{% endblock %}
+
+{% block paginationTop %}
+{% if neighbours.older or neighbours.newer %}
+  <section class="pagination top">
+    <div class="newer">
+      {% if neighbours.newer %}
+        <a id="newerNeighbourLink" href="/photo/{{ neighbours.newer.id }}">&larr;&nbsp;{{ neighbours.newer.title }}</a>
+      {% endif %}
+    </div>
+    <div class="older">
+      {% if neighbours.older %}
+        <a id="olderNeighbourLink" href="/photo/{{ neighbours.older.id }}">{{ neighbours.older.title }}&nbsp;&rarr;</a>
+      {% endif %}
+    </div>
+  </section>
+{% endif %}
+{% endblock %}
+
+{% block headerLinks %}
+<a href="/" class="homepage-link">← back to all photos</a>
+{% endblock %}
+
+{% block posts %}
+<div class="post post-single post-image-flex">
+  <div class="gallery pswp-gallery" id="gallery"><a href="{{ photo.image.original }}" data-pswp-width="{{ photo.dimensions.width }}" data-pswp-height="{{ photo.dimensions.height }}"><img alt="{{ photo.title }}" src="{{ photo.image.thumb }}"></a></div>
+  <div>
+    <p class="title">{{ photo.title }}</p>
+    <p class="date">{{ photo.timestamp.short }} &mdash; {{ photo.timestamp.time }}</p>
+    {{ photo.description.html|raw }}
+    <section class="tag-container">
+      <i class="emoji">🏷️</i>
+      <span class="tags">{% for tag in photo.tags %}<a href="/tag/{{ tag|replace({' ': '_'}) }}">#{{ tag|replace({' ': '&nbsp;'})|raw }}</a>{% endfor %}</span>
+    </section>
+    {% if photo.people %}
+      <section class="tag-container">
+        <i class="emoji">👥️</i>
+        <span class="people">{% for person in photo.people %}<a href="/person/{{ person|replace({' ': '_'}) }}">{{ person|replace({' ': '&nbsp;'})|raw }}</a>{% endfor %}</span>
+      </section>
+    {% endif %}
+    {% if photo.location %}
+      <section class="tag-container">
+        <i class="emoji">📍</i>
+        <span class="places"><a href="/place/{{ photo.location|replace({' ': '_'}) }}">{{ photo.location|replace({' ': '&nbsp;'})|raw }}</a></span>
+      </section>
+    {% endif %}
+
+    {% if loggedIn %}<p>{% if not photo.published %}Draft - {% endif %}<a href="/folder/photo/{{ photo.id }}?inline">Edit</a></p>{% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script type="module">
+    import PhotoSwipeLightbox from '/theme/js/photoswipe-lightbox.esm.js';
+    const lightbox = new PhotoSwipeLightbox({
+        gallery: '#gallery',
+        children: 'a',
+        pswpModule: () => import('/theme/js/photoswipe.esm.js'),
+        wheelToZoom: true,
+        preloaderDelay: 0
+    });
+    lightbox.init();
+
+    let olderNeighbourLink = document.getElementById("olderNeighbourLink");
+    let newerNeighbourLink = document.getElementById("newerNeighbourLink");
+
+    document.body.onkeydown = function(e) {
+        if (e.key === "ArrowRight" ||
+            e.keyCode === 39
+        ) {
+            if (olderNeighbourLink) {
+                olderNeighbourLink.click();
+            }
+        }
+        else if (e.key === "ArrowLeft" ||
+            e.keyCode === 37
+        ) {
+            if (newerNeighbourLink) {
+                newerNeighbourLink.click();
+            }
+        }
+    }
+</script>
+{% endblock %}

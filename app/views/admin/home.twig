@@ -1,0 +1,73 @@
+{% extends 'base.twig' %}
+{% set title = 'Home' %}
+
+{% block main %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-11 col-xl-10">
+        <div class="page-header d-flex justify-content-between align-items-center">
+          <h1><a href="/folder">folder &#x1F4F7;</a></h1>
+          <div>
+          <a class="btn btn-light" href="/">View Site</a>
+          <a class="btn btn-dark" href="/logout">Logout</a>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="row content-list-head">
+              <div class="col-auto">
+                <h3>Photos</h3>
+                <a class="btn btn-round" href="/folder/newphoto">
+                  <i class="material-icons">add</i>
+                </a>
+              </div>
+            </div>
+            <!--end of content list head-->
+            <div class="row row-cols-1 row-cols-md-3">
+              {% for photo in photos %}
+
+                <div class="col mb-4">
+                  <div class="card {% if not photo.published %}draft{% endif %}">
+                    <a href="/folder/photo/{{ photo.id }}">
+                      <img src="{{ photo.image.thumb }}" class="card-img-top" alt="{{ photo.title }}">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ photo.title }}</h5>
+                      <h6 class="card-subtitle mb-2 text-muted">{{ photo.timestamp.short }}</h6>
+                      {% if photo.description %}
+                        <p class="card-text">{{ photo.description.html|raw }}</p>
+                      {% endif %}
+                      {% if photo.tags %}
+                      <h6 class="tags text-muted">{% for tag in photo.tags %}#{{ tag }}&nbsp;{% endfor %}</h6>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+
+              {% endfor %}
+            </div>
+
+            {% if ((currentPage > 1) or (currentPage < lastPage)) %}
+              <section class="pagination d-flex justify-content-between align-items-center pb-3">
+                <div class="newer">
+                  {% if (currentPage > 1) %}
+                    <a href="/folder/page/{{ currentPage - 1 }}">&larr;&nbsp;Newer Photos</a>
+                  {% endif %}
+                </div>
+                <div class="older">
+                  {% if (currentPage < lastPage) %}
+                    <a href="/folder/page/{{ currentPage + 1 }}">Older Photos&nbsp;&rarr;</a>
+                  {% endif %}
+                </div>
+              </section>
+            {% endif %}
+
+            <!--end of content list body-->
+          </div>
+          <!--end of content list-->
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

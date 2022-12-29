@@ -1,0 +1,35 @@
+{% extends 'base.twig' %}
+{% set title = 'Login' %}
+
+{% block main %}
+<div class="main-container fullscreen">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xl-5 col-lg-6 col-md-7">
+        <div class="text-center">
+          <h1 class="h2">Welcome Back &#x1f44b;</h1>
+          <p class="lead">Log in to your account to continue</p>
+          
+          {% if incorrect %}
+          <div class="alert alert-danger" role="alert">
+            Username or password is incorrect!
+          </div>
+          {% endif %}
+          
+          <form action="/login" method="post">
+            <div class="form-group">
+              <input class="form-control" type="text" placeholder="Username" name="username" autofocus/>
+            </div>
+            <div class="form-group">
+              <input class="form-control" type="password" placeholder="Password" name="password" />
+            </div>
+            <button class="btn btn-lg btn-block btn-primary" role="button" type="submit">
+              Log in
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends 'base.twig' %}
+{% set title = 'New Photo' %}
+
+{% block main %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-11 col-xl-10">
+        <div class="page-header d-flex justify-content-between align-items-center">
+          <h1><a href="/folder">folder &#x1F4F7;</a></h1>
+          <div>
+            <a class="btn btn-light" href="/">View Site</a>
+            <a class="btn btn-dark" href="/logout">Logout</a>
+          </div>
+        </div>
+        <hr>
+
+        <div class="tab-pane fade show active" id="projects">
+          <div class="content-list">
+            <div class="row content-list-head">
+              <div class="col-auto">
+                <h3>New Photo</h3>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+
+                  <div class="mb-2">
+                    <label for="imageInput">Image File: </label>
+                    <input id="imageInput" type="file" name="image">
+                  </div>
+
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input type="text" name="timestamp" value="{{ timestamp }}" class="form-control" aria-label="Post Title" data-flatpickr data-enable-time="true" data-date-format="Y-m-d H:i">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <input type="text" class="form-control" name="title" placeholder="Title">
+                  </div>
+
+                  <div class="form-group">
+                    <textarea class="form-control autoresize" name="description" placeholder="Description"></textarea>
+                  </div>
+
+                  <div class="form-group">
+                    <input style="display:none;" id="tagsField" type="text" class="" name="tags" placeholder="Tags">
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="form-group mb-0">
+                      <div class="custom-control custom-checkbox custom-checkbox-switch">
+                        <input type="checkbox" name="published" class="custom-control-input" id="is-published">
+                        <label class="custom-control-label" for="is-published">Published</label>
+                      </div>
+                    </div>
+
+                    <div>
+                      <a href="/folder" class="btn btn-secondary">Cancel</a>
+                      <input type="submit" class="btn btn-primary" value="Create">
+                    </div>
+                  </div>
+                </form>
+
+              </div>
+            </div>
+
+          </div>
+          <!--end of content list-->
+        </div>
+        <!--end of tab-->
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block js %}
+<script type="text/javascript">
+new TomSelect("#tagsField",{
+  plugins: ['caret_position'],
+  persist: false,
+  createOnBlur: true,
+  create: true,
+  options: [{{ tags|raw }}],
+  labelField: 'value',
+  searchField: ['value'],
+  onItemAdd:function(){
+    this.setTextboxValue('');
+    this.refreshOptions();
+  }
+});
+</script>
+{% endblock %}
