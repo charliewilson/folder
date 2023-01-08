@@ -1,5 +1,5 @@
 <?php
-namespace folder;
+namespace Folder\Controller;
 
 use Delight\Auth\AmbiguousUsernameException;
 use Delight\Auth\AuthError;
@@ -14,6 +14,13 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
+/**
+ * PageController is the main controller for page routing and calling
+ * various methods from the Folder App api.
+ *
+ * @author    Charlie Wilson <me@charliewilson.co.uk>
+ * @copyright Charlie Wilson
+ */
 class PageController extends BaseController {
 
   public function rssGet() {

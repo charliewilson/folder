@@ -1,12 +1,12 @@
 <?php
 
-namespace folder;
+namespace Folder;
 
-require_once("vendor/autoload.php");
-require_once("objects/objects.php");
-require_once("controllers/controllers.php");
 require_once("theme/theme.php");
 
+use Folder\Controller\PageController;
+use Folder\Controller\PhotoController;
+use Folder\Controller\ThemeController;
 use PDO;
 use Exception;
 
@@ -19,36 +19,35 @@ use Twig\Extra\Intl\IntlExtension;
 
 class App {
 
-  public $db;
-  public $router;
-  public $twig;
-  public $theme;
-  public $auth;
-  public $user;
-  public $appData;
+  public PDO $db;
+  public AltoRouter $router;
+  public Environment $twig;
+  public Environment $theme;
+  public Auth $auth;
+  public AppData $appData;
   
-  public $pageController;
-  public $photoController;
-  public $themeController;
+  public PageController $pageController;
+  public PhotoController $photoController;
+  public ThemeController $themeController;
 
-  function __construct(PDO $db = null) {
+  function __construct() {
 
     //if an existing PDO obj is passed (to avoid creating unneccessary PDO connections), use it.
     //otherwise, create a new one.
-    $this->db = ($db) ? $db : new PDO('sqlite:'.$_SERVER['DOCUMENT_ROOT'].'/app/folder.db');
+    $this->db = new PDO('sqlite:'.$_SERVER['DOCUMENT_ROOT'].'/src/folder.db');
     $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $this->router = new AltoRouter();
-    $this->router->addMatchTypes(array('tag' => '[0-9A-Za-z\-_]++'));
+    $this->router->addMatchTypes(array('tag' => '[0-9A-Za-z\-_&]++'));
 
-    //admin twig environment
-    $this->twig = new Environment((new FilesystemLoader('app/views')),[
+    //Setup Folder Twig environment
+    $this->twig = new Environment((new FilesystemLoader('src/views')),[
       'debug' => true
     ]);
     $this->twig->addExtension(new DebugExtension());
     $this->twig->addExtension(new IntlExtension());
 
-    //theme twig environment
+    //Setup theme Twig environment
     $this->theme = new Environment((new FilesystemLoader('theme')),[
       'debug' => true
     ]);
@@ -56,16 +55,16 @@ class App {
     $this->theme->addExtension(new IntlExtension());
 
     $this->auth = new Auth($this->db);
-    $this->user = new User($this->db);
-    $this->appData = new appData;
-    
+    $this->appData = new AppData;
+
     $this->pageController = new PageController($this);
     $this->photoController = new PhotoController($this);
     $this->themeController = new ThemeController($this);
   }
 
   function run() {
-    //Comment these out if you're in production!
+
+    //Comment these out if you're in production (for now)!
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
@@ -107,7 +106,7 @@ class App {
     // match current request url
     $match = $this->router->match();
 
-    // call the mapped pageController method or throw a 404
+    // call the mapped ThemeController or PageController method, or throw a 404
     if (is_array($match)) {
       if (method_exists($this->themeController, $match['target'])) {
         call_user_func([$this->themeController, $match['target']], $match['params']);
@@ -121,59 +120,3 @@ class App {
 
 }
 
-class AppData {
-
-  public $appName, $version, $postsPerPage;
-
-  function __construct() {
-    $this->appName = 'folder';
-    $this->version = '1.3';
-    //instagram does 24 per load...
-    $this->postsPerPage = 24;
-  }
-
-  public function get() {
-    return [
-      "name" => $this->appName,
-      "version" => $this->version,
-      "year" => date("Y"),
-      "postsPerPage" => $this->postsPerPage
-    ];
-  }
-
-}
-
-class User {
-
-  private $db;
-
-  function __construct(PDO $db) {
-    $this->db = $db;
-  }
-
-  // Confirms that the email exists and password is correct.
-  // Returns true if correct, false in any other case.
-  public function confirmDetails($email, $pass) {
-    try {
-      $q = $this->db->prepare("
-        SELECT `email`, `password`
-        FROM `users`
-        WHERE `email` = :email
-      ");
-
-      $q->execute([
-        ':email' => filter_var($email,FILTER_SANITIZE_EMAIL)
-      ]);
-
-      if ($q) {
-        $data = $q->fetch();
-        return (password_verify(filter_var($pass, FILTER_SANITIZE_STRING), $data['password'])) ? true : false;
-      } else {
-        return false;
-      }
-    } catch (Exception $e) {
-      return false;
-    }
-
-  }
-}

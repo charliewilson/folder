@@ -1,10 +1,19 @@
 <?php
-namespace folder;
+namespace Folder\Controller;
 
+use Folder\App;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
+/**
+ * BaseController is a generic page controller class designed
+ * to be extended. It provides some basic error, 404, "maintenance"
+ * and debug "dump" routes.
+ *
+ * @author    Charlie Wilson <me@charliewilson.co.uk>
+ * @copyright Charlie Wilson
+ */
 class BaseController {
 
   public App $app;
@@ -14,7 +23,8 @@ class BaseController {
     $this->app = $app;
   }
 
-  public function errorMessage($message) {
+  public function errorMessage($message): void
+  {
     header( $_SERVER["SERVER_PROTOCOL"] . ' 500 Internal Server Error');
     try {
       echo $this->app->twig->render('error.twig', [
@@ -27,7 +37,8 @@ class BaseController {
     die();
   }
 
-  public function pageNotFound() {
+  public function pageNotFound(): void
+  {
     header( $_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
     try {
       echo $this->app->theme->render('404.twig', [
@@ -39,7 +50,8 @@ class BaseController {
     die();
   }
 
-  public function maintenance() {
+  public function maintenance(): void
+  {
     header( $_SERVER["SERVER_PROTOCOL"] . ' 503 Service Unavailable');
     try {
       echo $this->app->twig->render('/misc/maintenance.twig', [

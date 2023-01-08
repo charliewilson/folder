@@ -23,7 +23,13 @@
         "ext-exif": "*",
         "erusev/parsedown": "^1.7"
     },
+    "autoload": {
+        "psr-4": {
+            "Folder\\": "src/"
+        }
+    },
     "scripts": {
-        "post-install-cmd": "php -r \"if (!file_exists('app/folder.db')) { copy('app/folder_init.db', 'app/folder.db'); } else { echo 'folder: db already exists.'; }\""
+        "post-install-cmd": "php -r \"if (!file_exists('src/folder.db')) { copy('src/folder_init.db', 'src/folder.db'); } else { echo 'folder: db already exists.'; }\"",
+        "build": "@composer dump-autoload"
     }
 }
