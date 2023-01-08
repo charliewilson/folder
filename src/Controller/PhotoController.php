@@ -1,10 +1,14 @@
 <?php
-namespace folder;
+namespace Folder\Controller;
 
-use DateTime;
-use Intervention\Image\ImageManagerStatic as Image;
+use Folder\App;
+
 use PDO;
 use PDOException;
+use DateTime;
+
+use Intervention\Image\ImageManagerStatic as Image;
+
 
 class PhotoController {
   
@@ -14,7 +18,8 @@ class PhotoController {
     $this->app = $app;
   }
   
-  public function getAll($options = []) {
+  public function getAll($options = []): bool|array
+  {
     
     $defaultOptions = [
       "includeDrafts" => false
@@ -25,7 +30,7 @@ class PhotoController {
       }
     }
 
-    if ($defaultOptions["includeDrafts"] == true) {
+    if ($defaultOptions["includeDrafts"]) {
       $statement = "SELECT * FROM `photos` ORDER BY `date_time` DESC";
     } else {
       $statement = "SELECT * FROM `photos` WHERE published = 1 ORDER BY `date_time` DESC";
@@ -33,9 +38,7 @@ class PhotoController {
     $people = $this->app->db->prepare($statement);
     $people->execute();
 
-    return $people->fetchAll(PDO::FETCH_CLASS,'\folder\Photo', [
-      $this->app->db
-    ]);
+    return $people->fetchAll(PDO::FETCH_CLASS,'\Folder\Model\Photo');
     
   }
 
@@ -62,9 +65,7 @@ class PhotoController {
       ":limit" => $this->app->appData->get()['postsPerPage']
     ]);
 
-    return $people->fetchAll(PDO::FETCH_CLASS,'\folder\Photo', [
-      $this->app->db
-    ]);
+    return $people->fetchAll(PDO::FETCH_CLASS,'\Folder\Model\Photo');
 
   }
   
@@ -90,9 +91,7 @@ class PhotoController {
       ":id" => filter_var($id, FILTER_SANITIZE_NUMBER_INT)
     ]);
 
-    return $post->fetchObject('\folder\Photo', [
-      $this->app->db
-    ]);
+    return $post->fetchObject('\Folder\Model\Photo');
   
   }
 
@@ -128,16 +127,14 @@ class PhotoController {
       ":current" => $current->timestamp()['raw']
     ]);
 
-    return $post->fetchObject('\folder\Photo', [
-      $this->app->db
-    ]);
+    return $post->fetchObject('\Folder\Model\Photo');
 
   }
 
   public function getTag($tag, $field = "tags", $options = []) {
 
     //Strip all non-alphanumeric
-    $cleanTag = preg_replace("/[^A-Za-z0-9 ]/", '', $tag);
+    $cleanTag = preg_replace("/[^A-Za-z0-9 &]/", '', $tag);
 
     $defaultOptions = [
       "includeDrafts" => false
@@ -175,16 +172,14 @@ class PhotoController {
       ]);
     }
 
-    return $photos->fetchAll(PDO::FETCH_CLASS,'\folder\Photo', [
-      $this->app->db
-    ]);
+    return $photos->fetchAll(PDO::FETCH_CLASS,'\Folder\Model\Photo');
 
   }
 
   public function getFieldPage($tag, $field = "tag", $page = 1, $options = []): bool|array {
 
     //Strip all non-alphanumeric
-    $cleanTag = preg_replace("/[^A-Za-z0-9 ]/", '', $tag);
+    $cleanTag = preg_replace("/[^A-Za-z0-9 &]/", '', $tag);
 
     $defaultOptions = [
       "includeDrafts" => false
@@ -224,9 +219,7 @@ class PhotoController {
       ":limit" => $this->app->appData->get()['postsPerPage']
     ]);
 
-    return $photos->fetchAll(PDO::FETCH_CLASS,'\folder\Photo', [
-      $this->app->db
-    ]);
+    return $photos->fetchAll(PDO::FETCH_CLASS,'\Folder\Model\Photo');
 
   }
 

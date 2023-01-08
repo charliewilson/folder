@@ -1,14 +1,11 @@
 <?php
-namespace folder;
+namespace Folder\Model;
 
 use JetBrains\PhpStorm\ArrayShape;
-use PDO;
 use DateTime;
 use Parsedown;
 
 class Photo {
-  
-  private App $app;
   
   private int $id;
   private string $title;
@@ -20,10 +17,6 @@ class Photo {
   private int $published;
   private string|null $people;
   private string|null $location;
-  
-  function __construct(PDO $dbInstance = null) {
-    $this->app = new App($dbInstance);
-  }
   
   public function id(): int {
     return $this->id;

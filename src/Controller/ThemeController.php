@@ -1,14 +1,5 @@
 <?php
-namespace folder;
-
-use Delight\Auth\AmbiguousUsernameException;
-use Delight\Auth\AuthError;
-use Delight\Auth\InvalidPasswordException;
-use Delight\Auth\AttemptCancelledException;
-use Delight\Auth\EmailNotVerifiedException;
-use Delight\Auth\TooManyRequestsException;
-
-use Delight\Auth\UnknownUsernameException;
+namespace Folder\Controller;
 
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;

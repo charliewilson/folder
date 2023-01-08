@@ -1,7 +1,6 @@
 <?php
-require "app/folder.php";
 
-use folder\App;
+require "vendor/autoload.php";
+use Folder\App;
 
-$app = new App;
-$app->run();
+(new App)->run();

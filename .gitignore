@@ -1,5 +1,3 @@
 /.idea/
 /vendor/
-/app/folder.db
-/media/originals/*
-/media/thumbs/*
+/src/folder.db

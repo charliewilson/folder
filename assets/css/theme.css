@@ -3424,7 +3424,7 @@ input[type="button"].btn-block {
     margin-right: -12px;
     margin-left: -12px; }
     .card-deck .card {
-      flex: 1 0 0%;
+      flex: 1 0 0;
       margin-right: 12px;
       margin-bottom: 0;
       margin-left: 12px; } }
@@ -3437,7 +3437,7 @@ input[type="button"].btn-block {
     display: flex;
     flex-flow: row wrap; }
     .card-group > .card {
-      flex: 1 0 0%;
+      flex: 1 0 0;
       margin-bottom: 0; }
       .card-group > .card + .card {
         margin-left: 0;
@@ -8244,6 +8244,7 @@ form.dropzone {
 .numInputWrapper:hover span {
   opacity: 1; }
 
+/*noinspection ALL*/
 .flatpickr-current-month {
   font-size: 135%;
   line-height: inherit;
@@ -8382,6 +8383,7 @@ span.flatpickr-weekday {
 .flatpickr-days:focus {
   outline: 0; }
 
+/*noinspection ALL*/
 .dayContainer {
   padding: 0;
   outline: 0;
@@ -8597,17 +8599,21 @@ span.flatpickr-weekday {
   cursor: pointer; }
 
 @-webkit-keyframes fpFadeInDown {
+  /*noinspection ALL*/
   from {
     opacity: 0;
     transform: translate3d(0, -20px, 0); }
+  /*noinspection ALL*/
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0); } }
 
 @keyframes fpFadeInDown {
+  /*noinspection ALL*/
   from {
     opacity: 0;
     transform: translate3d(0, -20px, 0); }
+  /*noinspection ALL*/
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0); } }
