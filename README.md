@@ -1,5 +1,5 @@
 # folder
-Self-hosted photo journal platform
+Self-hosted photo journal platform that powers [photos.charlie.town](https://photos.charlie.town).
 
 ## Requirements
 - PHP 8.1 (or newer) with these extensions:
