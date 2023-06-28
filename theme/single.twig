@@ -50,18 +50,18 @@
     {{ photo.description.html|raw }}
     <section class="tag-container">
       <i class="emoji">🏷️</i>
-      <span class="tags">{% for tag in photo.tags %}<a href="/tag/{{ tag|replace({' ': '_'}) }}">#{{ tag|replace({' ': '&nbsp;'})|raw }}</a>{% endfor %}</span>
+      <span class="tags">{% for tag in photo.tags %}<a href="/tag/{{ tag|replace({' ': '_'})|url_encode }}">#{{ tag|replace({' ': '&nbsp;'})|raw }}</a>{% endfor %}</span>
     </section>
     {% if photo.people %}
       <section class="tag-container">
         <i class="emoji">👥️</i>
-        <span class="people">{% for person in photo.people %}<a href="/person/{{ person|replace({' ': '_'}) }}">{{ person|replace({' ': '&nbsp;'})|raw }}</a>{% endfor %}</span>
+        <span class="people">{% for person in photo.people %}<a href="/person/{{ person|replace({' ': '_'})|url_encode }}">{{ person|replace({' ': '&nbsp;'})|raw }}</a>{% endfor %}</span>
       </section>
     {% endif %}
     {% if photo.location %}
       <section class="tag-container">
         <i class="emoji">📍</i>
-        <span class="places"><a href="/place/{{ photo.location|replace({' ': '_'}) }}">{{ photo.location|replace({' ': '&nbsp;'})|raw }}</a></span>
+        <span class="places"><a href="/place/{{ photo.location|replace({' ': '_'})|url_encode }}">{{ photo.location|replace({' ': '&nbsp;'})|raw }}</a></span>
       </section>
     {% endif %}
 

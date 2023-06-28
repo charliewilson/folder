@@ -95,8 +95,10 @@ class ThemeController extends BaseController
         "place" => "location"
       };
 
+      $decodedTag = urldecode($params['tag']);
+
       $photos = $this->app->photoController->getTag(
-        tag: str_replace('_', ' ', $params['tag']),
+        tag: str_replace('_', ' ', $decodedTag),
         field: $tagFieldName
       );
 
@@ -106,10 +108,10 @@ class ThemeController extends BaseController
         "appData" => $this->app->appData->get(),
         "loggedIn" => $this->app->auth->isLoggedIn(),
         "type" => $params['type'],
-        "tag" => str_replace('_', ' ', $params['tag']),
+        "tag" => str_replace('_', ' ', $decodedTag),
         "tag_slug" => $params['tag'],
         "photos" => $this->app->photoController->getFieldPage(
-          tag: str_replace('_', ' ', $params['tag']),
+          tag: str_replace('_', ' ', $decodedTag),
           field: $tagFieldName,
           page: (isset($params['page'])) ? $params['page'] : 1
         ),

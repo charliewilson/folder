@@ -32,13 +32,13 @@ class App {
 
   function __construct() {
 
-    //if an existing PDO obj is passed (to avoid creating unneccessary PDO connections), use it.
+    //if an existing PDO obj is passed (to avoid creating unnecessary PDO connections), use it.
     //otherwise, create a new one.
     $this->db = new PDO('sqlite:'.$_SERVER['DOCUMENT_ROOT'].'/src/folder.db');
     $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $this->router = new AltoRouter();
-    $this->router->addMatchTypes(array('tag' => '[0-9A-Za-z\-_&]++'));
+    $this->router->addMatchTypes(array('tag' => '[0-9A-Za-z\-_&%]++'));
 
     //Setup Folder Twig environment
     $this->twig = new Environment((new FilesystemLoader('src/views')),[

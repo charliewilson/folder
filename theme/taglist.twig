@@ -14,7 +14,7 @@
     <div class="taglist">
       {% for tag, photos in tags %}
         <div class="{{ tagType }}">
-          <a href="/{{ tagTypeSingular }}/{{ tag|replace({' ': '_'}) }}">{% if tagType == "tag" %}#{% endif %}{{ tag }}</a><span>{{ photos }} Photo{% if photos != 1 %}s{% endif %}</span>
+          <a href="/{{ tagTypeSingular }}/{{ tag|replace({' ': '_'})|url_encode }}">{% if tagType == "tag" %}#{% endif %}{{ tag }}</a><span>{{ photos }} Photo{% if photos != 1 %}s{% endif %}</span>
         </div>
       {% endfor %}
     </div>

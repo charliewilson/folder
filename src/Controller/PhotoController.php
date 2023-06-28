@@ -134,7 +134,7 @@ class PhotoController {
   public function getTag($tag, $field = "tags", $options = []) {
 
     //Strip all non-alphanumeric
-    $cleanTag = preg_replace("/[^A-Za-z0-9 &]/", '', $tag);
+    $cleanTag = preg_replace("/[^A-Za-z0-9 &']/", '', $tag);
 
     $defaultOptions = [
       "includeDrafts" => false
@@ -179,7 +179,7 @@ class PhotoController {
   public function getFieldPage($tag, $field = "tag", $page = 1, $options = []): bool|array {
 
     //Strip all non-alphanumeric
-    $cleanTag = preg_replace("/[^A-Za-z0-9 &]/", '', $tag);
+    $cleanTag = preg_replace("/[^A-Za-z0-9 &']/", '', $tag);
 
     $defaultOptions = [
       "includeDrafts" => false
